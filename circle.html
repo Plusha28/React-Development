@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>От данных к интерфейсу</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+        #container {
+            padding: 50px;
+            background-color: #FFF;
+        }
+    </style>
+</head>
+
+<body>
+<div id="container"></div>
+<!--ReactDOM.render принимает 2 аргумента: html-тег и место, где этот элемент отобразить-->
+<!--тип выставлен для того, чтобы babel преобразовал код с JSX в JS-->
+<script type="text/babel">
+    class Circle extends React.Component {
+        render() {
+            var circleStyle = {
+                position: "absolute",
+                top: "45%",
+                left: "48%",
+                transform: "translate(-52%, -55%)",
+                padding: 10,
+                margin: 20,
+                display: "inline-block",
+                backgroundColor: this.props.bgColor,
+                borderRadius: "50%",
+                width: 100,
+                height: 100,
+            };
+            return (
+                <div style={circleStyle}>
+                </div>
+            );
+        }
+    }
+
+    function showCircle() {
+        var colors = ("rgb(" + Math.floor(Math.random() * 255)
+            + "," + Math.floor(Math.random() * 255) + ","
+            + Math.floor(Math.random() * 255) + ")");
+        //возвращает круг со случайным цветом
+         return <Circle bgColor={colors} />;
+    }
+
+        ReactDOM.render(
+            <div>
+                {showCircle()}
+            </div>,
+            document.querySelector("#container"),
+        );
+    </script>
+</body>

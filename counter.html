@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Счётчик на React!</title>
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    </head>
+
+    <body>
+    <div id="container"></div>
+    <!--ReactDOM.render принимает 2 аргумента: html-тег и место, где этот элемент отобразить-->
+    <!--тип выставлен для того, чтобы babel преобразовал код с JSX в JS-->
+    <script type="text/babel">
+        class LightningCounter extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    strikes: 0
+                };
+                this.timerTick = this.timerTick.bind(this);
+            }
+            timerTick() {
+                this.setState({
+                    strikes: this.state.strikes + 100
+                });
+            }
+            componentDidMount() {
+                setInterval(this.timerTick, 1000);
+            }
+            render() {
+                var h1Style = {
+                    display: "table-cell",
+                    verticalAlign: "middle",
+                    textAlign: "center",
+                    fontSize: 200,
+                }
+                return (
+                    <h1 style={h1Style}>{this.state.strikes}</h1>
+                );
+            }
+        }
+        class LightningCounterDisplay extends React.Component {
+            render() {
+                var divStyle = {
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: "50%",
+                    height: "50%",
+                    backgroundColor: "black",
+                    padding: 40,
+                    fontFamily: "sans-serif",
+                    color: "#999",
+                    borderRadius: 10,
+                    display: "table",
+                };
+                return (
+                    <div style={divStyle}>
+                        <LightningCounter/>
+                    </div>
+                );
+            }
+        }
+        ReactDOM.render(
+            <LightningCounterDisplay/>,
+            document.querySelector("#container")
+        );
+    </script>
+    </body>

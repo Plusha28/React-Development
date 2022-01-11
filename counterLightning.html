@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Счётчик на React!</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+<div id="container"></div>
+<!--ReactDOM.render принимает 2 аргумента: html-тег и место, где этот элемент отобразить-->
+<!--тип выставлен для того, чтобы babel преобразовал код с JSX в JS-->
+<script type="text/babel">
+    class LightningCounter extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {
+                strikes: 0
+            };
+            this.timerTick = this.timerTick.bind(this);
+        }
+        timerTick() {
+            this.setState({
+                strikes: this.state.strikes + 100
+            });
+        }
+        componentDidMount() {
+            setInterval(this.timerTick, 1000);
+        }
+        render() {
+            var counterStyle = {
+                color: "#66FFFF",
+
+                fontSize: 200,
+            };
+            var count = this.state.strikes.toLocaleString();
+            return (
+                <h1 style={counterStyle}>{count}</h1>
+            );
+        }
+    }
+    class LightningCounterDisplay extends React.Component {
+        render() {
+            var commonStyle = {
+                margin: 0,
+                padding: 0,
+            };
+            var divStyle = {
+                backgroundColor: "#020202",
+                padding: 40,
+                fontFamily: "sans-serif",
+                color: "#999999",
+                borderRadius: 10,
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "40%",
+                height: "30%",
+                display: "table",
+            };
+            var textStyles = {
+                emphasis: {
+                    fontSize: 40,
+                    ...commonStyle
+                },
+
+                smallEmphasis: {
+                    fontSize: 50,
+                    ...commonStyle
+                },
+                small: {
+                    fontSize: 20,
+                    opacity: 0.5,
+                    ...commonStyle
+                    }
+                };
+            var contentStyle = {
+                display: "table-cell",
+                verticalAlign: "middle",
+                textAlign: "center",
+            }
+            return (
+                <div style={divStyle}>
+                    <div style={contentStyle}>
+                    <LightningCounter />
+                    <h2 style={textStyles.smallEmphasis}>Вспышки молнии</h2>
+                    <h2 style={textStyles.emphasis}>на планете</h2>
+                    <p style={textStyles.small}>(с момента запуска кода)</p>
+                    </div>
+                </div>
+            );
+        }
+    }
+    ReactDOM.render(
+        <LightningCounterDisplay />,
+        document.querySelector("#container")
+    );
+
+</script>
+</body>
